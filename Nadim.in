@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Nadeem Ultra Search</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    text-align: center;
+    background: linear-gradient(135deg, #000428, #004e92);
+    color: white;
+    transition: 0.5s;
+}
+
+.light {
+    background: #f5f5f5;
+    color: black;
+}
+
+h1 {
+    margin-top: 100px;
+    font-size: 55px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #00f; }
+    to { text-shadow: 0 0 25px #0ff; }
+}
+
+input {
+    width: 300px;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#clock, #weather {
+    margin-top: 10px;
+}
+
+#chatbox {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 250px;
+    background: #222;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#chatbox input {
+    width: 80%;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Nadeem 🔍</h1>
+
+<form action="https://www.google.com/search">
+<input type="text" id="searchBox" name="q" placeholder="Search anything...">
+<br>
+<button>Search</button>
+<button type="button" onclick="voiceSearch()">🎤</button>
+<button type="button" onclick="toggleMode()">🌙/☀️</button>
+</form>
+
+<div id="clock"></div>
+<div id="weather">Weather: Loading...</div>
+
+<!-- Music -->
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+<button onclick="playMusic()">🎵 Play Music</button>
+
+<!-- Chatbox -->
+<div id="chatbox">
+    <div id="messages"></div>
+    <input type="text" id="msg">
+    <button onclick="sendMsg()">Send</button>
+</div>
+
+<script>
+// Clock
+setInterval(()=>{
+    document.getElementById("clock").innerText = new Date().toLocaleTimeString();
+},1000);
+
+// Dark Mode
+function toggleMode(){
+    document.body.classList.toggle("light");
+}
+
+// Voice Search
+function voiceSearch(){
+    let rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    rec.start();
+    rec.onresult = e=>{
+        document.getElementById("searchBox").value = e.results[0][0].transcript;
+    }
+}
+
+// Music
+function playMusic(){
+    document.getElementById("music").play();
+}
+
+// Fake Weather
+document.getElementById("weather").innerText = "Weather: 28°C Sunny";
+
+// Chatbot
+function sendMsg(){
+    let msg = document.getElementById("msg").value;
+    let box = document.getElementById("messages");
+    box.innerHTML += "<div>You: "+msg+"</div>";
+    box.innerHTML += "<div>Bot: Nice 😎</div>";
+}
+</script>
+
+</body>
+</html>
